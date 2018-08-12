@@ -1,17 +1,20 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'bundler/setup'
-require "selenium-webdriver"
+require 'selenium-webdriver'
+require 'yaml'
+require 'pry'
 
-task = "raid @USERNAME medium"
+config = YAML.load(File.read("config.yml"))
 
+task = "raid @#{config["user_to_raid"]} medium"
 driver = Selenium::WebDriver.for :firefox
-driver.navigate.to "SLACK CHANNEL URL"
+driver.navigate.to config["channel_to_raid_in"]
 
 email_input = driver.find_element(name: 'email')
-email_input.send_keys "LOGIN EMAIL"
+email_input.send_keys config["login_email"]
 password_input = driver.find_element(name: 'password')
-password_input.send_keys "LOGIN PASSWORD"
+password_input.send_keys config["login_password"]
 password_input.submit
 
 wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds

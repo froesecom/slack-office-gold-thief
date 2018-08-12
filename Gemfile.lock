@@ -3,16 +3,24 @@ GEM
   specs:
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
+    coderay (1.1.2)
     ffi (1.9.25)
+    method_source (0.8.2)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
     rubyzip (1.2.1)
     selenium-webdriver (3.14.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
+    slop (3.6.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  pry (~> 0.10.3)
   selenium-webdriver (~> 3.14)
 
 BUNDLED WITH
