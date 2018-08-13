@@ -5,6 +5,9 @@ require 'selenium-webdriver'
 require 'yaml'
 require 'pry'
 
+require_relative 'app/office_gold_thief'
+require_relative 'app/services/tracker'
+
 config = YAML.load(File.read("config.yml"))
 mode = "silent"
 mode_conf = config["modes"][mode]
@@ -21,8 +24,6 @@ password_input.submit
 
 wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
 wait.until { driver.find_element(class: "ql-editor") }
-#input = driver.find_element(id: "msg_input")
-#p = input.find_element(css: "p")
 
 input = driver.find_element(id: "msg_input")
 sleep 5
