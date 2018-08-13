@@ -6,6 +6,10 @@ A script to raid your friends' gold via the Office [Gold Slack](http://officegol
 
 `./run.rb`
 
+## To quit
+
+`ctl + c`
+
 ## To install
 
 This app currently uses Selenium's Firefox driver to launch a browser instance and raid your buddies gold.
