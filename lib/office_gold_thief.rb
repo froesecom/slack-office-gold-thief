@@ -22,9 +22,6 @@ class OfficeGoldThief
 
     Authenticator.login(@driver, config["login_email"], config["login_password"])
 
-    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
-    wait.until { @driver.find_element(class: "ql-editor") }
-
     input = @driver.find_element(id: "msg_input")
     sleep 5
     input.click
