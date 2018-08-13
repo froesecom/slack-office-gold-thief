@@ -2,3 +2,10 @@ user_to_raid: username
 channel_to_raid_in: https://hardhat.slack.com/messages/CHANNELID/
 login_email: email 
 login_password: password
+modes:
+  silent:
+    timeout: 240
+  medium:
+    timeout: 480
+  berserk:
+    timeout: 960

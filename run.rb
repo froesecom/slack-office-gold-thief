@@ -6,8 +6,10 @@ require 'yaml'
 require 'pry'
 
 config = YAML.load(File.read("config.yml"))
+mode = "silent"
+mode_conf = config["modes"][mode]
 
-task = "raid @#{config["user_to_raid"]} medium"
+task = "raid @#{config["user_to_raid"]} #{mode}"
 driver = Selenium::WebDriver.for :firefox
 driver.navigate.to config["channel_to_raid_in"]
 
@@ -29,7 +31,7 @@ input.click
 while true
   driver.execute_script("document.querySelectorAll('#msg_input p')[0].innerHTML = '#{task}'")
   driver.action.send_keys(:enter).perform
-  sleep 480
+  sleep mode_conf["timeout"]
 end
 
 
