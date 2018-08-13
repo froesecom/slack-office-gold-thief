@@ -2,9 +2,18 @@
 
 A script to raid your friends' gold via the Office [Gold Slack](http://officegold.fruktorum.com/office_gold) app
 
+## To run
+
+`./run.rb`
+
 ## To install
 
 This app currently uses Selenium's Firefox driver to launch a browser instance and raid your buddies gold.
+
+- `bundle install`
+- install Firefox driver (see below)
+- copy `config.yml.example` to `config.yml`
+- Fill in `config.yml` with your details.
 
 #### Installing Firefox driver
 
