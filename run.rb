@@ -1,10 +1,4 @@
 #!/usr/bin/env ruby
-require 'rubygems'
-require 'bundler/setup'
-require 'selenium-webdriver'
-require 'yaml'
-require 'pry'
-
 require_relative 'lib/office_gold_thief'
 
 config = YAML.load(File.read("config.yml"))
