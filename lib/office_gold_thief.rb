@@ -7,4 +7,4 @@ require 'pry'
 module OfficeGoldThief
 end
 
-require_relative '../app/services/tracker'
+require_relative 'services/tracker'
