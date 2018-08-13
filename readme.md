@@ -27,3 +27,4 @@ Currently to use the install script, you need to:
 
 - install the [jq tool](https://stedolan.github.io/jq/)
 - create a `geckodriver` folder in the directory you're running the script (it will be automatically moved
+- `./geckodriver-install.sh`
