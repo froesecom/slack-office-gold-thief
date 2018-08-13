@@ -1,6 +1,6 @@
 # Slack Office Gold Thief
 
-A script to raid your friends' gold via the Office [Gold Slack](http://officegold.fruktorum.com/office_gold) app
+A script to raid your friends' gold via the [Office Gold Slack](http://officegold.fruktorum.com/office_gold) app
 
 ## To run
 
