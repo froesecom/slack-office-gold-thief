@@ -1,1 +1,4 @@
 - fix geckodriver script to create geckodriver dir
+- track which mode gets the most gold
+- add a mode that figures out the energy level of user and changes raids berserk if energy is low
+- add functionality to raid multiple users, if one runs out of gold
