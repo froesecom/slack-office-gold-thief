@@ -9,7 +9,6 @@ module OfficeGoldThief::Authenticator
 
     wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
     wait.until { driver.find_element(class: "ql-editor") }
-
   end
 
 end
