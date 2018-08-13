@@ -5,8 +5,7 @@ require 'selenium-webdriver'
 require 'yaml'
 require 'pry'
 
-require_relative 'app/office_gold_thief'
-require_relative 'app/services/tracker'
+require_relative 'lib/office_gold_thief'
 
 config = YAML.load(File.read("config.yml"))
 mode = "silent"
