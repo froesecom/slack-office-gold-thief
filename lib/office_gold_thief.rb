@@ -16,20 +16,20 @@ class OfficeGoldThief
     validate_action
     @driver = Selenium::WebDriver.for :firefox
     @action.driver = @driver
+    @config = YAML.load(File.read("config.yml"))
   end
 
   def call
     #move most of this stuff into DefaultAction call method
 
     mode = "silent"
-    config = YAML.load(File.read("config.yml"))
-    mode_conf = config["modes"][mode]
-    task = "raid @#{config["user_to_raid"]} #{mode}"
+    mode_conf = @config["modes"][mode]
+    task = "raid @#{@config["user_to_raid"]} #{mode}"
     tracker = Tracker.new(@driver)
 
-    @driver.navigate.to config["channel_to_raid_in"]
+    @driver.navigate.to @config["channel_to_raid_in"]
 
-    Authenticator.login(@driver, config["login_email"], config["login_password"])
+    Authenticator.login(@driver, @config["login_email"], @config["login_password"])
 
     input = @driver.find_element(id: "msg_input")
     sleep 5
