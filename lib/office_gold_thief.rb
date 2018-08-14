@@ -20,7 +20,6 @@ class OfficeGoldThief
   end
 
   def call
-    #move most of this stuff into DefaultAction call method
 
     mode = "silent"
     mode_conf = @config["modes"][mode]
