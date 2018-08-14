@@ -1,8 +1,9 @@
 require 'rubygems'
 require 'bundler/setup'
-require 'selenium-webdriver'
-require 'yaml'
 require 'pry'
+require 'yaml'
+require 'require_all'
+require 'selenium-webdriver'
 
 class OfficeGoldThief
 
@@ -38,5 +39,4 @@ class OfficeGoldThief
   end
 end
 
-require_relative 'services/authenticator'
-require_relative 'services/tracker'
+require_all 'lib/services'
