@@ -1,7 +1,7 @@
 class OfficeGoldThief::Action
   class MissingChildMethodError < StandardError; end;
 
-  attr_accessor :driver
+  attr_accessor :driver, :user_to_raid
 
   def call(options=nil)
     raise_missing_child_method("call")

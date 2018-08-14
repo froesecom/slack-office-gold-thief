@@ -13,18 +13,14 @@ class OfficeGoldThief
 
   def initialize(action)
     @action = action
-    validate_action
     @driver = Selenium::WebDriver.for :firefox
-    @action.driver = @driver
     @config = YAML.load(File.read("config.yml"))
+    @user_to_raid = @config["user_to_raid"]
+    setup_action
+    @tracker = Tracker.new(@driver)
   end
 
   def call
-
-    mode = "silent"
-    mode_conf = @config["modes"][mode]
-    task = "raid @#{@config["user_to_raid"]} #{mode}"
-    tracker = Tracker.new(@driver)
 
     @driver.navigate.to @config["channel_to_raid_in"]
 
@@ -36,16 +32,21 @@ class OfficeGoldThief
     sleep 1
 
     while true
-      tracker.track
-      @driver.execute_script("document.querySelectorAll('#msg_input p')[0].innerHTML = '#{task}'")
-      @driver.action.send_keys(:enter).perform
-      sleep mode_conf["timeout"]
+      @tracker.track
+      @action.call
+      @tracker.track
     end
 
     @driver.quit
   end
 
   private
+  def setup_action
+    validate_action
+    @action.driver = @driver
+    @action.user_to_raid = @user_to_raid
+  end
+
   def validate_action
     unless @action.class.ancestors.include? OfficeGoldThief::Action
       raise InvalidActionError.new("Your action instance must inherit from OfficeGoldThief::Action class")
