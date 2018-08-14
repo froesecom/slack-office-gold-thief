@@ -10,6 +10,12 @@ A script to raid your friends' gold via the [Office Gold Slack](http://officegol
 
 `ctl + c`
 
+## Usage
+
+Office Gold has three raiding "modes": silent, medium, berserk. The default mode for this script is to raid in `silent` mode. You can switch to one of the other modes by adding the corresponding symbol to `OfficeGoldThief::DefaultAction.new(:berserk)` in `run.rb`.
+
+If you want to write your own custom raiding logic, simply create a custom action class in `/lib/actions/custom/` and replace the default action with your action in `run.rb`. Your action must inherit from `OfficeGoldThief::Action`. By doing so, you'll have access to the selenium `driver` and `user_to_raid` in your Action class. See the `lib/actions/default/default_action.rb` for examples.
+
 ## To install
 
 This app currently uses Selenium's Firefox driver to launch a browser instance and raid your buddies gold.
