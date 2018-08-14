@@ -39,4 +39,5 @@ class OfficeGoldThief
   end
 end
 
+require_all 'lib/actions'
 require_all 'lib/services'
