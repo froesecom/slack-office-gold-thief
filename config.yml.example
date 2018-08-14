@@ -1,0 +1,4 @@
+user_to_raid: slack_username
+channel_to_raid_in: https://hardhat.slack.com/messages/OFFICECHANNELID/
+login_email: emailaddress
+login_password: slackpassword
