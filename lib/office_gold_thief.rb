@@ -7,13 +7,19 @@ require 'selenium-webdriver'
 
 class OfficeGoldThief
 
+  class InvalidActionError < StandardError; end;
+
   attr_reader :driver
 
-  def initialize
+  def initialize(action)
+    @action = action
+    validate_action
     @driver = Selenium::WebDriver.for :firefox
+    @action.driver = @driver
   end
 
-  def call(mode="silent")
+  def call
+    mode = "silent"
     config = YAML.load(File.read("config.yml"))
     mode_conf = config["modes"][mode]
     task = "raid @#{config["user_to_raid"]} #{mode}"
@@ -37,6 +43,14 @@ class OfficeGoldThief
 
     @driver.quit
   end
+
+  private
+  def validate_action
+    unless @action.class.ancestors.include? OfficeGoldThief::Action
+      raise InvalidActionError.new("Your action instance must inherit from OfficeGoldThief::Action class")
+    end
+  end
+
 end
 
 require_all 'lib/actions'
