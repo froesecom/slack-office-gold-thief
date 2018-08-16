@@ -15,8 +15,7 @@ class OfficeGoldThief::DefaultAction < OfficeGoldThief::Action
 
   def call
     task = "raid @#{user_to_raid} #{@mode.to_s}"
-    driver.execute_script("document.querySelectorAll('#msg_input p')[0].innerHTML = '#{task}'")
-    driver.action.send_keys(:enter).perform
+    OfficeGoldThief::Utilities::Messenger.submit_message(driver, task)
     sleep @timeout
   end
 
