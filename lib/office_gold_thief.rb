@@ -21,26 +21,33 @@ class OfficeGoldThief
   end
 
   def call
-
-    @driver.navigate.to @config["channel_to_raid_in"]
-
-    Authenticator.login(@driver, @config["login_email"], @config["login_password"])
-
-    input = @driver.find_element(id: "msg_input")
-    sleep 5
-    input.click
-    sleep 1
+    navigate_to_channel
+    login
+    focus_on_message_input
 
     while true
-      @tracker.track
-      @action.call
-      @tracker.track
+      @tracker.track_action(@action)
     end
 
     @driver.quit
   end
 
   private
+  def focus_on_message_input
+    input = @driver.find_element(id: "msg_input")
+    sleep 5 #magic number... to avoid a pop up, needs refactor
+    input.click
+    sleep 1 #wait for focus before calling actions
+  end
+
+  def login
+    Authenticator.login(@driver, @config["login_email"], @config["login_password"])
+  end
+
+  def navigate_to_channel
+    @driver.navigate.to @config["channel_to_raid_in"]
+  end
+
   def setup_action
     validate_action
     @action.driver = @driver

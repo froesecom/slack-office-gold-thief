@@ -5,8 +5,9 @@ class OfficeGoldThief::Tracker
     @slack_user = slack_user
   end
 
-  def track
-    remove_info_elements
+  def track_action(action)
+    action.call
+    #remove_info_elements
     # write messanger
     #wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
     #wait.until { driver.find_element(class: "ql-editor") }
