@@ -17,13 +17,13 @@ class OfficeGoldThief
     @config = YAML.load(File.read("config.yml"))
     @user_to_raid = @config["user_to_raid"]
     setup_action
-    @tracker = Tracker.new(Utilities::UserInfo.new(@driver))
   end
 
   def call
     navigate_to_channel
     login
     focus_on_message_input
+    setup_tracker
 
     while true
       @tracker.track_action(@action)
@@ -52,6 +52,10 @@ class OfficeGoldThief
     validate_action
     @action.driver = @driver
     @action.user_to_raid = @user_to_raid
+  end
+
+  def setup_tracker
+    @tracker = Tracker.new(Utilities::UserInfo.new(@driver))
   end
 
   def validate_action
