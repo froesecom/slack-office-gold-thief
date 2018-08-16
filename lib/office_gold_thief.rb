@@ -17,7 +17,7 @@ class OfficeGoldThief
     @config = YAML.load(File.read("config.yml"))
     @user_to_raid = @config["user_to_raid"]
     setup_action
-    @tracker = Tracker.new(@driver)
+    @tracker = Tracker.new(Utilities::UserInfo.new(@driver))
   end
 
   def call
