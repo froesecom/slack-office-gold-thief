@@ -6,11 +6,28 @@ class OfficeGoldThief::Utilities::UserInfo
 
   def get_status(slack_user=nil)
     remove_existing_status_elements
+    sleep 1
     request_status
-    #parse_status
+    parse_status
   end
 
   private
+  def parse_status
+    message_text_field_class = 'c-message_attachment__text'
+    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
+    wait.until {
+      @driver.find_elements(class: message_text_field_class)
+    }
+    status_el = @driver.find_elements(class: message_text_field_class).last
+    status = status_el.text if status_el
+    parse_status_text(status)
+  end
+
+  def parse_status_text(text=nil)
+    return {error: "could not retrieve status from element"} unless text
+
+  end
+
   def request_status(slack_user=nil)
     message = slack_user ? "info @#{slack_user}" : "info"
     OfficeGoldThief::Utilities::Messenger.submit_message(@driver, message)
