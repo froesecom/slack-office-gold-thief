@@ -1,0 +1,2 @@
+module OfficeGoldThief::Utilities
+end

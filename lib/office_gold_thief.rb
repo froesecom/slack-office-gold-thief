@@ -64,3 +64,4 @@ end
 
 require_all 'lib/actions'
 require_all 'lib/services'
+require_all 'lib/utilities'
