@@ -25,7 +25,10 @@ class OfficeGoldThief::Utilities::UserInfo
 
   def parse_status_text(text=nil)
     return {error: "could not retrieve status from element"} unless text
-
+    text_array = text.split("\n")
+    gold = text_array[0].to_i
+    energy = text_array[1].to_f if text_array[1]
+    {gold: gold, energy: energy}
   end
 
   def request_status(slack_user=nil)
