@@ -1,6 +1,6 @@
-- track which mode gets the most gold
-- add logger to log to a file
-- fix geckodriver script to create geckodriver dir
+- build reporter to report on changes in energy and gold
+- add logger to log to a file to stdout
+- fix geckodriver script to create geckodriver dir 
 - add a mode that figures out the energy level of user and changes raids berserk if energy is low
 - add functionality to raid multiple users, if one runs out of gold
 - add some bloody error handling

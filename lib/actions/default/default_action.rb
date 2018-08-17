@@ -7,6 +7,7 @@ class OfficeGoldThief::DefaultAction < OfficeGoldThief::Action
     berserk: {timeout: 960}
   }
 
+  attr_reader :timeout
   def initialize(mode=:silent)
     @mode = mode
     @timeout = @@modes[@mode][:timeout]
@@ -16,7 +17,6 @@ class OfficeGoldThief::DefaultAction < OfficeGoldThief::Action
   def call
     task = "raid @#{user_to_raid} #{@mode.to_s}"
     OfficeGoldThief::Utilities::Messenger.submit_message(driver, task)
-    sleep @timeout
   end
 
   private

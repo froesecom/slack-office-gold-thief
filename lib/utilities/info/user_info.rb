@@ -3,17 +3,13 @@ class OfficeGoldThief::Utilities::UserInfo
 
   def initialize(driver)
     @driver = driver
+    @message_text_field_class = 'c-message_attachment__text'
   end
 
-  def get_status(slack_user=nil, tries=0)
-    unless tries > 4
-      remove_existing_status_elements
-      sleep 1
-      request_status(slack_user)
-      parse_status(slack_user, tries)
-    else
-      raise_request_error("Unable to successfully find current status for #{slack_user ? slack_user : 'yourself'}")
-    end
+  def get_status(slack_user=nil)
+    remove_existing_status_elements
+    request_status(slack_user)
+    parse_status(slack_user)
   end
 
   private
@@ -21,20 +17,26 @@ class OfficeGoldThief::Utilities::UserInfo
     status.include? "gold"
   end
 
-  def parse_status(slack_user, tries)
-    message_text_field_class = 'c-message_attachment__text'
-    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
-    wait.until {
-      @driver.find_elements(class: message_text_field_class)
-    }
-    status_el = @driver.find_elements(class: message_text_field_class).last
-    status = status_el.text if status_el
-    if is_valid_status(status)
-    parse_status_text(status)
+  def parse_status(slack_user, tries=0)
+    # refactor
+    unless tries > 4
+      wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
+      wait.until {
+        @driver.find_elements(class: @message_text_field_class)
+      }
+      statuses = @driver.find_elements(class: @message_text_field_class)
+      status_el = statuses.last
+      status = status_el.text if status_el
+      puts tries
+      if status && is_valid_status(status)
+        parse_status_text(status)
+      else
+        sleep 1
+        tries += 1
+        parse_status(slack_user, tries)
+      end
     else
-      sleep 1
-      tries += 1
-      get_status(slack_user, tries)
+      raise_request_error("Unable to successfully find current status for #{slack_user ? slack_user : 'yourself'}")
     end
   end
 
@@ -56,14 +58,12 @@ class OfficeGoldThief::Utilities::UserInfo
   end
 
   def remove_existing_status_elements
-    script = "
-               var els = document.getElementsByClassName('c-message_attachment__text');
-               for (var i=0;i < els.length;i++) {
-                 els[i].parentNode.removeChild(els[i]);
-               }
-             "
-    @driver.execute_script(script)
+    info_fields = @driver.find_elements(class: @message_text_field_class)
+    script = "arguments[0].setAttribute('class', '')"
+    info_fields.each do |f|
+      @driver.execute_script(script, f)
+    end
+    sleep 2 # magic number to ensure everything is removed; refactor
   end
-
 
 end

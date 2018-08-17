@@ -4,16 +4,17 @@ class OfficeGoldThief::Tracker
   def initialize(info_utility, slack_user=nil)
     @info_utility = info_utility
     @slack_user = slack_user
+    @change_in_gold = 0
+    @change_in_energy = 0.00
     set_initial_state
   end
 
   def track_action(action)
-    @info_utility.get_status
+    status = @info_utility.get_status
     action.call
-    #remove_info_elements
-    # write messanger
-    #wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
-    #wait.until { driver.find_element(class: "ql-editor") }
+    new_status = @info_utility.get_status
+    set_status_change(status, new_status)
+    sleep action.timeout
   end
 
   private
@@ -21,9 +22,12 @@ class OfficeGoldThief::Tracker
     status = @info_utility.get_status
     @initial_gold = status[:gold]
     @initial_energy = status[:energy]
-    puts @initial_gold
-    puts @initial_energy
-    #raise error if error in status
-    #create logger thingo to log this stuff
+    @start_time = Time.now.to_i
+  end
+
+  def set_status_change(status_1, status_2)
+    @change_in_gold += (status_2[:gold] - status_1[:gold])
+    @change_in_energy += (status_2[:energy] - status_1[:energy])
+    puts "@change_in_gold #{@change_in_gold}; @change_in_energy #{@change_in_energy}"
   end
 end
