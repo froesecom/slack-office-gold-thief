@@ -1,18 +1,27 @@
 class OfficeGoldThief::Utilities::UserInfo
+  class StatusRequestError < StandardError; end;
 
   def initialize(driver)
     @driver = driver
   end
 
-  def get_status(slack_user=nil)
-    remove_existing_status_elements
-    sleep 1
-    request_status
-    parse_status
+  def get_status(slack_user=nil, tries=0)
+    unless tries > 4
+      remove_existing_status_elements
+      sleep 1
+      request_status(slack_user)
+      parse_status(slack_user, tries)
+    else
+      raise_request_error("Unable to successfully find current status for #{slack_user ? slack_user : 'yourself'}")
+    end
   end
 
   private
-  def parse_status
+  def is_valid_status(status)
+    status.include? "gold"
+  end
+
+  def parse_status(slack_user, tries)
     message_text_field_class = 'c-message_attachment__text'
     wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
     wait.until {
@@ -20,7 +29,13 @@ class OfficeGoldThief::Utilities::UserInfo
     }
     status_el = @driver.find_elements(class: message_text_field_class).last
     status = status_el.text if status_el
+    if is_valid_status(status)
     parse_status_text(status)
+    else
+      sleep 1
+      tries += 1
+      get_status(slack_user, tries)
+    end
   end
 
   def parse_status_text(text=nil)
@@ -31,7 +46,11 @@ class OfficeGoldThief::Utilities::UserInfo
     {gold: gold, energy: energy}
   end
 
-  def request_status(slack_user=nil)
+  def raise_request_error(message)
+    raise StatusRequestError.new(message)
+  end
+
+  def request_status(slack_user)
     message = slack_user ? "info @#{slack_user}" : "info"
     OfficeGoldThief::Utilities::Messenger.submit_message(@driver, message)
   end
