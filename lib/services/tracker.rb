@@ -27,7 +27,7 @@ class OfficeGoldThief::Tracker
 
   def set_status_change(status_1, status_2)
     @change_in_gold += (status_2[:gold] - status_1[:gold])
-    @change_in_energy += (status_2[:energy] - status_1[:energy])
+    @change_in_energy += (@initial_energy  - status_1[:energy])
     puts "@change_in_gold #{@change_in_gold}; @change_in_energy #{@change_in_energy}"
   end
 end
