@@ -1,3 +1,5 @@
+- fix issue with tracker breaking
+- fix issue with energy reporting
 - build reporter to report on changes in energy and gold
 - add logger to log to a file to stdout
 - refactor parse_status method
